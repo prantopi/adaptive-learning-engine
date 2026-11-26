@@ -9,9 +9,11 @@
   <a href="https://github.com/prantopi/adaptive-learning-engine/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/prantopi/adaptive-learning-engine/tests.yml?branch=main&style=flat-square&label=tests" alt="Tests"></a>
   <a href="https://pypi.org/project/adaptive-learning-engine/"><img src="https://img.shields.io/pypi/v/adaptive-learning-engine?style=flat-square&color=3775A9&logo=pypi&logoColor=white&cacheSeconds=3600" alt="PyPI version"></a>
   <a href="https://pypi.org/project/adaptive-learning-engine/"><img src="https://img.shields.io/pypi/pyversions/adaptive-learning-engine?style=flat-square&logo=python&logoColor=white&color=3776AB&cacheSeconds=3600" alt="Python versions"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license"></a>
+  <br>
+  <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
   <img src="https://img.shields.io/badge/Bayesian-knowledge_tracing-8A63D2?style=flat-square" alt="Bayesian knowledge tracing">
   <img src="https://img.shields.io/badge/spaced-repetition-C8442A?style=flat-square" alt="Spaced repetition">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license"></a>
 </p>
 
 It combines Bayesian Knowledge Tracing, spaced-repetition modelling, learner-specific forgetting curves, item difficulty estimation, response-time signals, knowledge transfer, study-budget optimisation and dropout-risk modelling to decide what a learner should study next.
