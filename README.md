@@ -1,16 +1,18 @@
-<h1 align="center">Adaptive Learning Engine</h1>
-
-<p align="center"><strong>A lightweight, model-driven engine for personalised learning.</strong><br>
-Knows what you know, predicts when you'll forget it, and picks what to study next.</p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.svg">
+    <img src="docs/banner-light.svg" width="100%" alt="Adaptive Learning Engine: knows what you know, predicts when you'll forget it, and picks what to study next. Answers, knowledge, memory, difficulty, daily load, time budget, next action.">
+  </picture>
+</p>
 
 <p align="center">
   <a href="https://github.com/prantopi/adaptive-learning-engine/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/prantopi/adaptive-learning-engine/tests.yml?branch=main&style=flat-square&label=tests" alt="Tests"></a>
-  <a href="https://pypi.org/project/adaptive-learning-engine/"><img src="https://img.shields.io/pypi/v/adaptive-learning-engine?style=flat-square&color=3775A9&logo=pypi&logoColor=white" alt="PyPI version"></a>
-  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
+  <a href="https://pypi.org/project/adaptive-learning-engine/"><img src="https://img.shields.io/pypi/v/adaptive-learning-engine?style=flat-square&color=3775A9&logo=pypi&logoColor=white&cacheSeconds=3600" alt="PyPI version"></a>
+  <a href="https://pypi.org/project/adaptive-learning-engine/"><img src="https://img.shields.io/pypi/pyversions/adaptive-learning-engine?style=flat-square&logo=python&logoColor=white&color=3776AB&cacheSeconds=3600" alt="Python versions"></a>
   <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
   <img src="https://img.shields.io/badge/Bayesian-knowledge_tracing-8A63D2?style=flat-square" alt="Bayesian knowledge tracing">
   <img src="https://img.shields.io/badge/spaced-repetition-C8442A?style=flat-square" alt="Spaced repetition">
-  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license"></a>
 </p>
 
 It combines Bayesian Knowledge Tracing, spaced-repetition modelling, learner-specific forgetting curves, item difficulty estimation, response-time signals, knowledge transfer, study-budget optimisation and dropout-risk modelling to decide what a learner should study next.
