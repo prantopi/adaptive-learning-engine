@@ -1,4 +1,14 @@
-# Adaptive Learning Engine
+<h1 align="center">Adaptive Learning Engine</h1>
+
+<p align="center"><strong>Knows what you know, predicts when you'll forget it, and picks what to study next.</strong></p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
+  <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
+  <img src="https://img.shields.io/badge/Bayesian-knowledge_tracing-8A63D2?style=flat-square" alt="Bayesian knowledge tracing">
+  <img src="https://img.shields.io/badge/spaced-repetition-C8442A?style=flat-square" alt="Spaced repetition">
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
+</p>
 
 These are the models behind a language-learning project of mine. Together they decide three things: how likely a learner is to know an item, when they'll forget it, and what they should study next. Each model is a small Python function with no database or web framework attached, and each has tests.
 
