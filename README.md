@@ -4,6 +4,7 @@
 Knows what you know, predicts when you'll forget it, and picks what to study next.</p>
 
 <p align="center">
+  <a href="https://github.com/prantopi/adaptive-learning-engine/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/prantopi/adaptive-learning-engine/tests.yml?branch=main&style=flat-square&label=tests" alt="Tests"></a>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
   <img src="https://img.shields.io/badge/Bayesian-knowledge_tracing-8A63D2?style=flat-square" alt="Bayesian knowledge tracing">
