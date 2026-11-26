@@ -2,9 +2,9 @@ from datetime import date
 
 import pytest
 
-from learning_engine import bkt, srs
-from learning_engine.grading import accepted_answers, check_typed
-from learning_engine.scheduler import daily_new_quota, exercise_for
+from adaptive_learning_engine import bkt, srs
+from adaptive_learning_engine.grading import accepted_answers, check_typed
+from adaptive_learning_engine.scheduler import daily_new_quota, exercise_for
 
 BEGINNER = bkt.params_for("Beginner")
 

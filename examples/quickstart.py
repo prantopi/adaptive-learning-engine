@@ -4,7 +4,7 @@ Run:  uv run python examples/quickstart.py
 """
 from datetime import date, timedelta
 
-from learning_engine import bkt, budget, personalize, srs
+from adaptive_learning_engine import bkt, budget, personalize, srs
 
 params = bkt.params_for("Beginner")
 today = date(2026, 1, 1)
@@ -34,7 +34,7 @@ due = [budget.Candidate(item_id, stability=s, elapsed_days=e, p_learned=pl, seco
 print("review first:", [c.item_id for c in budget.choose(due, budget_seconds=20)])
 
 # 5. All of it together: what should this learner do next?
-from learning_engine.recommend import Item, Learner, recommend  # noqa: E402
+from adaptive_learning_engine.recommend import Item, Learner, recommend  # noqa: E402
 
 day = today.toordinal()
 items = [

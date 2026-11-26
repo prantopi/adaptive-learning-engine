@@ -33,7 +33,7 @@ NEXT BEST STUDY ACTION     recommend.py
 `recommend()` runs the whole pipeline. You give it what you've stored about a learner and their items, and it returns the reviews to do (most valuable first), the new items to start, and the single next action, each with a reason:
 
 ```python
-from learning_engine.recommend import Item, Learner, recommend
+from adaptive_learning_engine.recommend import Item, Learner, recommend
 
 plan = recommend(items, Learner(reviews=past_reviews, history=study_days), today, minutes=10)
 plan.next      # from examples/quickstart.py: Action(kind="review", item_id=2,
@@ -41,6 +41,19 @@ plan.next      # from examples/quickstart.py: Action(kind="review", item_id=2,
 ```
 
 Each stage is also its own module of plain functions with its own tests, so you can use any of them alone. The only dependency is numpy.
+
+## Install
+
+```bash
+pip install adaptive-learning-engine     # once 0.1.0 is released on PyPI
+pip install git+https://github.com/prantopi/adaptive-learning-engine   # works now
+```
+
+```python
+import adaptive_learning_engine
+```
+
+To work on it:
 
 ```bash
 uv sync
@@ -100,7 +113,7 @@ Everything is plain functions on numbers, so you keep the state wherever you lik
 
 ```python
 from datetime import date
-from learning_engine import bkt, srs, personalize
+from adaptive_learning_engine import bkt, srs, personalize
 
 params = bkt.params_for("Beginner")
 p = bkt.update(params.p_init, correct=True, params=params, p_guess=0.25)   # 4-option multiple choice

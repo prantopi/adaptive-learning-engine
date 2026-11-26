@@ -23,7 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from learning_engine import bkt, personalize, srs  # noqa: E402
+from adaptive_learning_engine import bkt, personalize, srs  # noqa: E402
 
 DAYS = 60
 NEW_PER_DAY = 10

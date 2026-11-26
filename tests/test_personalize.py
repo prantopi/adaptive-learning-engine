@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import random
 
-from learning_engine import personalize
-from learning_engine.personalize import Observation, fit
+from adaptive_learning_engine import personalize
+from adaptive_learning_engine.personalize import Observation, fit
 
 
 def simulated_reviews(true_k: float, n: int, guess: float = 0.02, seed: int = 1) -> list[Observation]:

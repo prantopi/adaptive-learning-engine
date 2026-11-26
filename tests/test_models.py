@@ -5,8 +5,8 @@ import random
 
 import numpy as np
 
-from learning_engine import budget, difficulty, dropout, hesitation, related
-from learning_engine.personalize import Observation, fit
+from adaptive_learning_engine import budget, difficulty, dropout, hesitation, related
+from adaptive_learning_engine.personalize import Observation, fit
 
 
 # 2. Response time

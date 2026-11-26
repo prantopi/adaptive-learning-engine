@@ -4,18 +4,47 @@ version = "0.1.0"
 description = "Bayesian knowledge tracing, personalised spaced repetition, item difficulty and dropout prediction as small, tested Python functions."
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Iftekhar Pranto" }]
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24"]
+keywords = [
+    "spaced-repetition", "knowledge-tracing", "bayesian-knowledge-tracing", "adaptive-learning",
+    "forgetting-curve", "elo", "item-response-theory", "education", "edtech", "learning-analytics",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/prantopi/adaptive-learning-engine"
+Source = "https://github.com/prantopi/adaptive-learning-engine"
+Issues = "https://github.com/prantopi/adaptive-learning-engine/issues"
 
 [dependency-groups]
 dev = ["pytest>=8"]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["learning_engine"]
+packages = ["adaptive_learning_engine"]
+
+[tool.hatch.build.targets.sdist]
+include = ["adaptive_learning_engine", "tests", "examples", "README.md", "LICENSE"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

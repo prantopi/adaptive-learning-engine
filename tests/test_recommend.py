@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from learning_engine import dropout
-from learning_engine.personalize import Observation
-from learning_engine.recommend import Item, Learner, recommend
+from adaptive_learning_engine import dropout
+from adaptive_learning_engine.personalize import Observation
+from adaptive_learning_engine.recommend import Item, Learner, recommend
 
 TODAY = 1000
 
