@@ -1,6 +1,7 @@
 <h1 align="center">Adaptive Learning Engine</h1>
 
-<p align="center"><strong>Knows what you know, predicts when you'll forget it, and picks what to study next.</strong></p>
+<p align="center"><strong>A lightweight, model-driven engine for personalised learning.</strong><br>
+Knows what you know, predicts when you'll forget it, and picks what to study next.</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
@@ -10,9 +11,25 @@
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT license">
 </p>
 
-These are the models behind a language-learning project of mine. Together they decide three things: how likely a learner is to know an item, when they'll forget it, and what they should study next. Each model is a small Python function with no database or web framework attached, and each has tests.
+It combines Bayesian Knowledge Tracing, spaced-repetition modelling, learner-specific forgetting curves, item difficulty estimation, response-time signals, knowledge transfer, study-budget optimisation and dropout-risk modelling to decide what a learner should study next.
 
-The only dependency is numpy.
+```
+Learner answers            right or wrong, response time, which wrong option was picked
+      ↓
+Knowledge state            bkt.py, hesitation.py, related.py
+      ↓
+Memory prediction          srs.py, personalize.py (this learner's k and g)
+      ↓
+Difficulty + ability       difficulty.py
+      ↓
+Daily load                 dropout.py (a lighter day when quitting looks likely)
+      ↓
+Time constraints           budget.py (most recall per second)
+      ↓
+NEXT BEST STUDY ACTION
+```
+
+Each stage is a separate module of plain functions with its own tests. In the language-learning app I built these for, the app's study service calls them in this order on every answer and every study session. That service isn't part of this repo, so you wire the stages together yourself (see `examples/quickstart.py`). The only dependency is numpy.
 
 ```bash
 uv sync
