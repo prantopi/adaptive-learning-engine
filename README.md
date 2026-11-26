@@ -26,14 +26,24 @@ Daily load                 dropout.py (a lighter day when quitting looks likely)
       ↓
 Time constraints           budget.py (most recall per second)
       ↓
-NEXT BEST STUDY ACTION
+NEXT BEST STUDY ACTION     recommend.py
 ```
 
-Each stage is a separate module of plain functions with its own tests. In the language-learning app I built these for, the app's study service calls them in this order on every answer and every study session. That service isn't part of this repo, so you wire the stages together yourself (see `examples/quickstart.py`). The only dependency is numpy.
+`recommend()` runs the whole pipeline. You give it what you've stored about a learner and their items, and it returns the reviews to do (most valuable first), the new items to start, and the single next action, each with a reason:
+
+```python
+from learning_engine.recommend import Item, Learner, recommend
+
+plan = recommend(items, Learner(reviews=past_reviews, history=study_days), today, minutes=10)
+plan.next      # from examples/quickstart.py: Action(kind="review", item_id=2,
+               #   reason="predicted recall 90%; reviewing now adds 19 points of recall a week from now", ...)
+```
+
+Each stage is also its own module of plain functions with its own tests, so you can use any of them alone. The only dependency is numpy.
 
 ```bash
 uv sync
-uv run pytest                       # 64 tests
+uv run pytest                       # 75 tests
 uv run python examples/quickstart.py
 uv run python sim/simulate.py       # about 5 minutes
 ```
@@ -50,6 +60,7 @@ uv run python sim/simulate.py       # about 5 minutes
 | `related.py` | **Related items** by tf-idf cosine similarity. Items you already know raise the starting confidence of similar new ones (knowledge transfer). |
 | `budget.py` | **Short on time?** Scores each due review by how much it raises recall a week from now, per second it takes, and fills a time budget greedily (knapsack). |
 | `dropout.py` | **Quit risk.** Logistic regression on study gaps, recent activity and accuracy trend, refitted as a Bayesian (MAP) model with a prior on hand-set starting weights. |
+| `recommend.py` | **The pipeline.** Fits the memory model, checks quit risk to set the day's load, finds due reviews, ranks them by recall gained per second within the time budget, and adds new items with starting confidence from difficulty and related known items. Reviews come first. |
 | `scheduler.py`, `grading.py` | Daily new-item allowance from test scores; harder question types as confidence rises; typed answers that accept small typos. |
 
 `examples/quickstart.py` uses the engine on world capitals instead of language, to show the core doesn't depend on the subject.

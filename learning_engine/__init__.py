@@ -10,6 +10,7 @@ Modules
     related      tf-idf similarity between items and knowledge transfer to new ones
     budget       Pick the reviews worth most recall per second within a time budget
     dropout      Bayesian logistic regression for the risk a learner is about to stop
+    recommend    The whole pipeline: the next best study action for a learner
     scheduler    Daily allowance from test scores, exercise progression
     grading      Typo-tolerant checking of typed answers
 """
