@@ -31,36 +31,64 @@ Time constraints           budget.py (most recall per second)
 NEXT BEST STUDY ACTION     recommend.py
 ```
 
-`recommend()` runs the whole pipeline. You give it what you've stored about a learner and their items, and it returns the reviews to do (most valuable first), the new items to start, and the single next action, each with a reason:
-
-```python
-from adaptive_learning_engine.recommend import Item, Learner, recommend
-
-plan = recommend(items, Learner(reviews=past_reviews, history=study_days), today, minutes=10)
-plan.next      # from examples/quickstart.py: Action(kind="review", item_id=2,
-               #   reason="predicted recall 90%; reviewing now adds 19 points of recall a week from now", ...)
-```
-
-Each stage is also its own module of plain functions with its own tests, so you can use any of them alone. The only dependency is numpy.
-
-## Install
+## Quick start
 
 ```bash
 pip install adaptive-learning-engine
 ```
 
 ```python
-import adaptive_learning_engine
+from adaptive_learning_engine import AdaptiveLearner
+
+learner = AdaptiveLearner()
+learner.add_items(["spanish_001", "spanish_002", "spanish_003"])
+
+learner.record_answer("spanish_001", correct=True, response_time=2.4)   # seconds
+
+plan = learner.recommend(available_time=900)                            # 15 minutes
+plan.next           # Action(kind="learn", item_id="spanish_002", reason="new", ...)
+plan.reviews        # due reviews, most valuable first, each with a reason
 ```
 
-To work on it:
+`AdaptiveLearner` keeps one learner's state in memory and runs the whole pipeline for you. Save it with `to_dict()` (JSON-safe) and load it again with `AdaptiveLearner.from_dict()`. Every stage is also a module of plain functions, so you can use any model on its own. The only dependency is numpy.
+
+## API
+
+**`AdaptiveLearner(daily_new=10)`**: one learner, for one subject.
+
+| Method | What it does |
+|---|---|
+| `add_item(item_id, level="Beginner", difficulty=None, related=())` | Add an item (an `int` or `str` id). New items are introduced in the order added. `difficulty` is an Elo rating if you have one; `related` is `(other_id, similarity)` pairs. |
+| `add_items(ids, level="Beginner")` | Add several items. |
+| `link_related({id: text})` | Link items by tf-idf text similarity, so known items give related new ones a head start. |
+| `record_answer(item_id, correct, response_time=None, choices=None, when=None, confused_with=None)` | Record an answer. `response_time` is in seconds; `choices` is the number of multiple-choice options (`None` means free recall); `when` is a `date` or `datetime` (default today); `confused_with` is the item whose answer was given instead. Returns an `AnswerResult` with `p_learned`, `stability`, `next_review` and `hesitation`. |
+| `recommend(available_time=None, when=None)` | A `Plan` with `next`, `reviews`, `new_items`, `due`, `new_quota`, `quit_risk`, `light_day` and `estimated_minutes`. `available_time` is in seconds. |
+| `due(when=None)` | Item ids due for review on that day. |
+| `memory` | The fitted memory model: `factor` (k), `growth` (g), their 80% ranges, and `observations`. |
+| `ability`, `confusions(min_times=2)`, `typical_response_time(choices=None)` | What the engine has learned about this learner. |
+| `to_dict()`, `AdaptiveLearner.from_dict(data)` | Save and restore everything. |
+
+Bad input raises a clear `TypeError`, `ValueError` or `KeyError`: for example an unknown item, a negative response time, one-option multiple choice, or answers recorded out of date order.
+
+**`recommend(items, learner, today, minutes=None)`** is the stateless version, for when you keep state in your own database. You pass a list of `Item` records and a `Learner` summary, and get back the same `Plan`.
+
+**Item difficulty is a cross-learner estimate.** One learner's answers update their own `ability`, not the items' ratings. To rate items, run `difficulty.update` over all your learners' answers and pass the results in as `difficulty=`.
+
+## Examples
+
+- `examples/quickstart.py`: each model on its own, then `recommend()`, using world capitals.
+- `examples/times_tables.py`: a simulated student learning the 6–9 times tables for three weeks, in 5-minute sessions, driven by `AdaptiveLearner`.
+
+## Development
 
 ```bash
 uv sync
-uv run pytest                       # 75 tests
-uv run python examples/quickstart.py
-uv run python sim/simulate.py       # about 5 minutes
+uv run pytest                       # 102 tests
+uv run python examples/times_tables.py
+uv run python sim/simulate.py       # about 5 minutes; --seed and --learners to vary it
 ```
+
+Tests run on Python 3.10, 3.11, 3.12 and 3.13 for every push.
 
 ## The models
 
@@ -77,9 +105,9 @@ uv run python sim/simulate.py       # about 5 minutes
 | `recommend.py` | **The pipeline.** Fits the memory model, checks quit risk to set the day's load, finds due reviews, ranks them by recall gained per second within the time budget, and adds new items with starting confidence from difficulty and related known items. Reviews come first. |
 | `scheduler.py`, `grading.py` | Daily new-item allowance from test scores; harder question types as confidence rises; typed answers that accept small typos. |
 
-`examples/quickstart.py` uses the engine on world capitals instead of language, to show the core doesn't depend on the subject.
-
 ## Does it work? A simulation
+
+The results below come from `uv run python sim/simulate.py` with its defaults (`--seed 7 --learners 300`). The simulation is deterministic, so the same seed always gives the same numbers, and a test checks that.
 
 `sim/simulate.py` creates 300 simulated learners. Each one has a hidden forgetting curve per item and their own memory strength. They learn 10 items a day for 30 days, and each review schedule is scored on day 60.
 
@@ -107,9 +135,9 @@ uv run python sim/simulate.py       # about 5 minutes
 - **Difficulty and quit risk learn across users,** so with very few users they stay close to their starting values.
 - **Related-item links compare the surface of words.** In Spanish, *haces* ("you do") and *hace* ("it makes", used for weather) end up linked.
 
-## Using it
+## Using the models directly
 
-Everything is plain functions on numbers, so you keep the state wherever you like:
+Every model is plain functions on numbers:
 
 ```python
 from datetime import date

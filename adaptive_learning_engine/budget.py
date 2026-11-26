@@ -14,6 +14,9 @@ compared with the budget.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Union
+
+ItemId = Union[int, str]   # any hashable id works; int or str are the documented types
 
 from . import srs
 
@@ -23,7 +26,7 @@ FEEDBACK_SECONDS = 4.0   # reading the feedback and pressing Next
 
 @dataclass(frozen=True)
 class Candidate:
-    item_id: int
+    item_id: ItemId
     stability: float     # effective stability (base x personal scale)
     elapsed_days: float
     p_learned: float

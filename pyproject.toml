@@ -1,6 +1,6 @@
 [project]
 name = "adaptive-learning-engine"
-version = "0.1.0"
+version = "0.2.0"
 description = "Bayesian knowledge tracing, personalised spaced repetition, item difficulty and dropout prediction as small, tested Python functions."
 readme = "README.md"
 license = "MIT"

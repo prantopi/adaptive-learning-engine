@@ -13,6 +13,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from . import budget, difficulty, dropout, personalize, related, srs
+from .budget import ItemId
 from .hesitation import DEFAULT_MS
 from .scheduler import exercise_for
 
@@ -24,14 +25,15 @@ MIN_STUDY_DAYS = 2          # no quit-risk prediction before this
 @dataclass(frozen=True)
 class Item:
     """One item (flashcard, phrase, question) and what is known about it for this learner."""
-    item_id: int
+    item_id: ItemId
     level: str = "Beginner"
     difficulty: float | None = None           # Elo rating; None = the level's prior
     p_learned: float | None = None            # None = never studied
     stability: float = srs.INITIAL_STABILITY  # base stability in days
     successes: int = 0                        # successful spaced reviews
     last_review: int | None = None            # day number of the last answer, incl. learning (date.toordinal())
-    related: tuple[tuple[int, float], ...] = ()   # (other item_id, similarity), e.g. from related.links
+    related: tuple[tuple[ItemId, float], ...] = ()   # (other item_id, similarity), e.g. from related.links
+    next_review: int | None = None            # day number it's due; None = work it out from stability
 
     @property
     def started(self) -> bool:
@@ -51,7 +53,7 @@ class Learner:
 @dataclass(frozen=True)
 class Action:
     kind: str                # "review" or "learn"
-    item_id: int
+    item_id: ItemId
     exercise: str
     seconds: float
     reason: str
@@ -78,7 +80,7 @@ def _seconds(learner: Learner, exercise: str) -> float:
     return learner.typical_ms.get(exercise, DEFAULT_MS[exercise]) / 1000 + budget.FEEDBACK_SECONDS
 
 
-def _starting_p(item: Item, by_id: dict[int, Item]) -> tuple[float, int]:
+def _starting_p(item: Item, by_id: dict[ItemId, Item]) -> tuple[float, int]:
     diff = item.difficulty if item.difficulty is not None else difficulty.LEVEL_PRIOR.get(item.level, 0.0)
     base = difficulty.initial_p(0.15, diff, item.level)
     known = [(sim, by_id[o].p_learned) for o, sim in item.related
@@ -113,11 +115,13 @@ def recommend(items: list[Item], learner: Learner, today: int, minutes: float | 
             continue
         effective = memory.scale(item.successes) * item.stability
         elapsed = today - item.last_review
-        if elapsed < srs.interval_days(effective):
+        due_day = item.next_review if item.next_review is not None else \
+            item.last_review + srs.interval_days(effective)
+        if today < due_day:
             continue
         exercise = exercise_for(item.p_learned, "review")
         candidates.append(budget.Candidate(item.item_id, effective, elapsed, item.p_learned, _seconds(learner, exercise)))
-        info[item.item_id] = (exercise, srs.retention(effective, elapsed), elapsed - srs.interval_days(effective))
+        info[item.item_id] = (exercise, srs.retention(effective, elapsed), today - due_day)
     due = len(candidates)
     budget_seconds = minutes * 60 if minutes is not None else None
     chosen = budget.choose(candidates, budget_seconds)
