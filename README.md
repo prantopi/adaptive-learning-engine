@@ -5,6 +5,7 @@ Knows what you know, predicts when you'll forget it, and picks what to study nex
 
 <p align="center">
   <a href="https://github.com/prantopi/adaptive-learning-engine/actions/workflows/tests.yml"><img src="https://img.shields.io/github/actions/workflow/status/prantopi/adaptive-learning-engine/tests.yml?branch=main&style=flat-square&label=tests" alt="Tests"></a>
+  <a href="https://pypi.org/project/adaptive-learning-engine/"><img src="https://img.shields.io/pypi/v/adaptive-learning-engine?style=flat-square&color=3775A9&logo=pypi&logoColor=white" alt="PyPI version"></a>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
   <img src="https://img.shields.io/badge/Bayesian-knowledge_tracing-8A63D2?style=flat-square" alt="Bayesian knowledge tracing">
@@ -45,8 +46,7 @@ Each stage is also its own module of plain functions with its own tests, so you 
 ## Install
 
 ```bash
-pip install adaptive-learning-engine     # once 0.1.0 is released on PyPI
-pip install git+https://github.com/prantopi/adaptive-learning-engine   # works now
+pip install adaptive-learning-engine
 ```
 
 ```python
